@@ -1,0 +1,122 @@
+basePath: /api/v1
+definitions:
+  models.User:
+    properties:
+      name:
+        type: string
+    type: object
+  v1.HTTPError:
+    properties:
+      code:
+        example: 400
+        type: integer
+      message:
+        example: status bad request
+        type: string
+    type: object
+host: localhost:3000
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: Restful API description
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: REST API
+  version: "1.0"
+paths:
+  /api/v1/users:
+    post:
+      consumes:
+      - application/json
+      description: Create user operation
+      parameters:
+      - description: Request operation body
+        in: body
+        name: requestData
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          headers:
+            Authorization:
+              description: token access
+              type: string
+          schema:
+            $ref: '#/definitions/models.User'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v1.HTTPError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/v1.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v1.HTTPError'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/v1.HTTPError'
+      security:
+      - ApiKeyAuth: []
+      summary: Create user
+      tags:
+      - user
+  /api/v1/users/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get User by ID operation
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          headers:
+            Authorization:
+              description: token access
+              type: string
+          schema:
+            $ref: '#/definitions/models.User'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v1.HTTPError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/v1.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v1.HTTPError'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/v1.HTTPError'
+      security:
+      - ApiKeyAuth: []
+      summary: Get User by ID
+      tags:
+      - user
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
